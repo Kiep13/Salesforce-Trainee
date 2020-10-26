@@ -32,5 +32,9 @@
         <members>*</members>
         <name>StaticResource</name>
     </types>
+    <types>
+        <members>Account.External_Id__c</members>
+        <name>CustomField</name>
+    </types>
     <version>50.0</version>
 </Package>
