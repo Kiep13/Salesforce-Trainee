@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>nina-smirnova-2000@bk.ru</contactEmail>
+    <label>AccountSynchronization</label>
+    <oauthConfig>
+        <callbackUrl>https://nsholding-dev-ed.my.salesforce.com/services/authcallback/ConnectToAnotherOrg
+https://nsholding-dev-ed.my.salesforce.com</callbackUrl>
+        <consumerKey>3MVG9VeAQy5y3BQVSRwA8tmXMmj4rTxlv6Kdk3WzTJP6zgbPd6HkiXB3vXc24WtUK42Y6hnG8O2cUnPRC.15d</consumerKey>
+        <isAdminApproved>false</isAdminApproved>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <scopes>Api</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>BYPASS</ipRelaxation>
+        <refreshTokenPolicy>infinite</refreshTokenPolicy>
+    </oauthPolicy>
+</ConnectedApp>
