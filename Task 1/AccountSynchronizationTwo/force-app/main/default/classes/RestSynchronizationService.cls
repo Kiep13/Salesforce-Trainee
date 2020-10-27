@@ -50,5 +50,23 @@ public with sharing class RestSynchronizationService {
 
     System.debug(responce);
   }
+
+  @future(callout = true)
+  public static void sendDeleteRequest(String externalId) {
+    Account accountForUpdate = new Account(
+      External_Id__c = null
+    );
+  
+    Http http = new Http();
+    HttpRequest request = new HttpRequest();  
+    request.setEndpoint('callout:AnotherOrg/services/data/v49.0/sobjects/Account/' + externalId);  
+    request.setMethod('PATCH');    
+    request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+    System.debug(JSON.serialize(accountForUpdate));
+    request.setBody(JSON.serialize(accountForUpdate)); 
+    HttpResponse responce = http.send(request);
+
+    System.debug(responce);
+  }
 }
   
