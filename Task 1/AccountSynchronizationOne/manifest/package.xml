@@ -34,6 +34,7 @@
     </types>
     <types>
         <members>Account.External_Id__c</members>
+        <members>Account.From_Api__c</members>
         <name>CustomField</name>
     </types>
     <version>49.0</version>

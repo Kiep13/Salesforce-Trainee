@@ -28,5 +28,27 @@ public with sharing class RestSynchronizationService {
     account.External_Id__c = recordId;
     upsert account;
   }
+
+  @future(callout = true)
+  public static void sendUpdateRequest(Id id) {
+    Account account = [SELECT Name, AccountNumber, Phone, BillingAddress, ShippingAddress, External_Id__c FROM Account WHERE Id = :id];
+    Account accountForUpdate = new Account(
+      Name = account.Name,
+      AccountNumber = account.AccountNumber,
+      Phone = account.Phone,
+      From_Api__c = true
+    );
+  
+    Http http = new Http();
+    HttpRequest request = new HttpRequest();  
+    request.setEndpoint('callout:AnotherOrg/services/data/v49.0/sobjects/Account/' + account.External_Id__c);  
+    request.setMethod('PATCH');    
+    request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+    System.debug(JSON.serialize(accountForUpdate));
+    request.setBody(JSON.serialize(accountForUpdate)); 
+    HttpResponse responce = http.send(request);
+
+    System.debug(responce);
+  }
 }
   
