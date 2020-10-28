@@ -38,28 +38,6 @@ trigger AccountTrigger on Account (after insert, after update, before delete) {
           needUpdateRequestIds.add(account.id);
         }
       }
-      
-      // if((account.Name != oldAccount.Name ||
-      //   account.AccountNumber != oldAccount.AccountNumber ||
-      //   account.Phone != oldAccount.Phone || 
-      //   account.BillingStreet != oldAccount.BillingStreet ||
-      //   account.BillingCity != oldAccount.BillingCity ||
-      //   account.BillingCountry != oldAccount.BillingCountry ||
-      //   account.BillingState != oldAccount.BillingState ||
-      //   account.BillingPostalCode != oldAccount.BillingPostalCode ||
-      //   account.BillingLatitude != oldAccount.BillingLatitude ||
-      //   account.BillingLongitude != oldAccount.BillingLatitude ||
-      //   account.ShippingStreet != oldAccount.ShippingStreet ||
-      //   account.ShippingCity != oldAccount.ShippingCity || 
-      //   account.ShippingCountry != account.ShippingCountry ||
-      //   account.ShippingState != oldAccount.ShippingState ||
-      //   account.ShippingPostalCode != oldAccount.ShippingPostalCode ||
-      //   account.ShippingLatitude != oldAccount.ShippingLatitude ||
-      //   account.ShippingLongitude != oldAccount.ShippingLongitude
-      // ) && !account.From_Api__c) {
-  
-      //   needUpdateRequestIds.add(account.id);
-      // } 
   
       if(account.From_Api__c) {
         needUpdateAccountIds.add(account.Id);
@@ -74,7 +52,6 @@ trigger AccountTrigger on Account (after insert, after update, before delete) {
       RestSynchronizationService.sendUpdateRequest(needUpdateRequestIds);
     }
     
-
     AccountWorker.updateFromApiFlags(needUpdateAccountIds);
 
     AccountWorker.deleteMarkedAccounts(needDeleteAccountIds);

@@ -2,10 +2,6 @@ public with sharing class RestSynchronizationService {
 
   @future(callout = true)
   public static void sendInsertRequest(List<Id> ids) {
-    if(ids.size() <= 0) {
-      return;
-    }
-
     List<Account> accounts = RestSynchronizationService.getAccountsByIds(ids);
     List<Account> newAccounts = new List<Account>();
 
@@ -41,9 +37,6 @@ public with sharing class RestSynchronizationService {
 
   @future(callout = true)
   public static void sendUpdateRequest(List<Id> ids) {
-    if(ids.size() <= 0) {
-      return;
-    }
 
     List<Account> accounts = RestSynchronizationService.getAccountsByIds(ids);
     List<Account> accountsForUpdate = new List<Account>();
@@ -70,9 +63,6 @@ public with sharing class RestSynchronizationService {
 
   @future(callout = true)
   public static void sendDeleteRequest(List<String> externalIds) {
-    if(externalIds.size() <= 0) {
-      return;
-    }
 
     List<Account> accountsForUpdate = new List<Account>();
     for (String id : externalIds) {
