@@ -2,13 +2,8 @@ public with sharing class RestSynchronizationService {
 
   @future(callout = true)
   public static void sendInsertRequest(Id id) {
-    Account account = [SELECT Name, AccountNumber, Phone, BillingAddress, ShippingAddress FROM Account WHERE Id = :id];
-    Account newAccount = new Account(
-      Name = account.Name,
-      AccountNumber = account.AccountNumber,
-      Phone = account.Phone,
-      External_Id__c = account.Id
-    );
+    Account account = RestSynchronizationService.getAccountById(id);
+    Account newAccount = RestSynchronizationService.createAccountForRequest(account);
   
     Http http = new Http();
     HttpRequest request = new HttpRequest();  
@@ -31,13 +26,9 @@ public with sharing class RestSynchronizationService {
 
   @future(callout = true)
   public static void sendUpdateRequest(Id id) {
-    Account account = [SELECT Name, AccountNumber, Phone, BillingAddress, ShippingAddress, External_Id__c FROM Account WHERE Id = :id];
-    Account accountForUpdate = new Account(
-      Name = account.Name,
-      AccountNumber = account.AccountNumber,
-      Phone = account.Phone,
-      From_Api__c = true
-    );
+    Account account = RestSynchronizationService.getAccountById(id);
+    Account accountForUpdate = RestSynchronizationService.createAccountForRequest(account);
+    accountForUpdate.From_Api__c = true;
   
     Http http = new Http();
     HttpRequest request = new HttpRequest();  
@@ -67,6 +58,41 @@ public with sharing class RestSynchronizationService {
     HttpResponse responce = http.send(request);
 
     System.debug(responce);
+  }
+
+  public static Account getAccountById(Id id) {
+    Account account = [SELECT Name, AccountNumber, Phone, BillingStreet, 
+                              BillingCity, BillingCountry, BillingState, 
+                              BillingPostalCode, BillingLatitude, BillingLongitude, 
+                              ShippingStreet, ShippingCity, ShippingCountry, 
+                              ShippingState, ShippingPostalCode, ShippingLatitude, 
+                              ShippingLongitude, External_Id__c
+                              FROM Account WHERE Id = :id];
+    return account;
+  }
+
+  public static Account createAccountForRequest(Account account) {
+    Account newAccount = new Account(
+      Name = account.Name,
+      AccountNumber = account.AccountNumber,
+      Phone = account.Phone,
+      External_Id__c = account.Id,
+      BillingStreet = account.BillingStreet,
+      BillingCity = account.BillingCity,
+      BillingCountry = account.BillingCountry,
+      BillingState = account.BillingState,
+      BillingPostalCode = account.BillingPostalCode,
+      BillingLatitude = account.BillingLatitude,
+      BillingLongitude = account.BillingLongitude,
+      ShippingStreet = account.ShippingStreet,
+      ShippingCity = account.ShippingCity,
+      ShippingCountry = account.ShippingCountry,
+      ShippingState = account.ShippingState,
+      ShippingPostalCode = account.ShippingPostalCode,
+      ShippingLatitude = account.ShippingLatitude,
+      ShippingLongitude = account.ShippingLongitude
+    );
+    return newAccount;
   }
 }
   

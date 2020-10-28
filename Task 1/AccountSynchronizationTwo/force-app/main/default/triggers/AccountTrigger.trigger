@@ -13,10 +13,23 @@ trigger AccountTrigger on Account (after insert, after update, before delete) {
       Account oldAccount = Trigger.oldMap.get(account.Id);
   
       if((account.Name != oldAccount.Name ||
-         account.AccountNumber != oldAccount.AccountNumber ||
-         account.Phone != oldAccount.Phone || 
-         account.BillingAddress != oldAccount.BillingAddress ||
-         account.ShippingAddress != account.ShippingAddress) && !account.From_Api__c) {
+        account.AccountNumber != oldAccount.AccountNumber ||
+        account.Phone != oldAccount.Phone || 
+        account.BillingStreet != oldAccount.BillingStreet ||
+        account.BillingCity != oldAccount.BillingCity ||
+        account.BillingCountry  != oldAccount.BillingCountry ||
+        account.BillingState != oldAccount.BillingState ||
+        account.BillingPostalCode != oldAccount.BillingPostalCode ||
+        account.BillingLatitude != oldAccount.BillingLatitude ||
+        account.BillingLongitude != oldAccount.BillingLatitude ||
+        account.ShippingStreet != oldAccount.ShippingStreet ||
+        account.ShippingCity != oldAccount.ShippingCity || 
+        account.ShippingCountry != account.ShippingCountry ||
+        account.ShippingState != oldAccount.ShippingState ||
+        account.ShippingPostalCode != oldAccount.ShippingPostalCode ||
+        account.ShippingLatitude != oldAccount.ShippingLatitude ||
+        account.ShippingLongitude != oldAccount.ShippingLongitude
+      ) && !account.From_Api__c) {
   
          System.debug(2);
          RestSynchronizationService.sendUpdateRequest(account.id);
