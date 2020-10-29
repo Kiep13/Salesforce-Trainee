@@ -24,11 +24,8 @@ public with sharing class RestSynchronizationService {
     List<AccountInsertResponse> resultObjects = (
       List<AccountInsertResponse>)JSON.deserialize(responseBody, List<AccountInsertResponse>.class);
 
-    System.debug(resultObjects);
-
     for(Integer i = 0; i < resultObjects.size(); i++) {
       String recordId = (String)resultObjects[i].id;
-      System.debug(recordId);
       accounts[i].External_Id__c = recordId;
     }
 
@@ -54,11 +51,8 @@ public with sharing class RestSynchronizationService {
     request.setEndpoint('callout:AnotherOrg/services/data/v49.0/composite/sobjects');  
     request.setMethod('PATCH');    
     request.setHeader('Content-Type', 'application/json;charset=UTF-8');
-    System.debug(JSON.serialize(wrapper));
     request.setBody(JSON.serialize(wrapper)); 
     HttpResponse responce = http.send(request);
-
-    System.debug(responce);
   }
 
   @future(callout = true)
@@ -82,8 +76,6 @@ public with sharing class RestSynchronizationService {
     request.setHeader('Content-Type', 'application/json;charset=UTF-8');
     request.setBody(JSON.serialize(wrapper)); 
     HttpResponse responce = http.send(request);
-
-    System.debug(responce);
   }
 
   private static List<Account> getAccountsByIds(List<Id> ids) {

@@ -57,8 +57,6 @@ public with sharing class RestSynchronizationService {
     System.debug(JSON.serialize(wrapper));
     request.setBody(JSON.serialize(wrapper)); 
     HttpResponse responce = http.send(request);
-
-    System.debug(responce);
   }
 
   @future(callout = true)
@@ -82,8 +80,6 @@ public with sharing class RestSynchronizationService {
     request.setHeader('Content-Type', 'application/json;charset=UTF-8');
     request.setBody(JSON.serialize(wrapper)); 
     HttpResponse responce = http.send(request);
-
-    System.debug(responce);
   }
 
   private static List<Account> getAccountsByIds(List<Id> ids) {
