@@ -15,8 +15,10 @@ trigger AccountTrigger on Account (after insert, after update, before delete) {
     String[] compareFields = new String[]{
       'Name', 'AccountNumber', 'Phone', 'BillingStreet',
       'BillingCity', 'BillingCountry', 'BillingState', 'BillingPostalCode',
-      'BillingLatitude', 'BillingLongitude'
-    };
+      'BillingLatitude', 'BillingLongitude', 'ShippingStreet', 'ShippingCity', 
+      'ShippingCountry', 'ShippingState', 'ShippingPostalCode', 'ShippingLatitude', 
+      'ShippingLongitude'
+      };
 
     List<Id> needUpdateAccountIds = new List<Id>();
     List<Id> needDeleteAccountIds = new List<Id>();
