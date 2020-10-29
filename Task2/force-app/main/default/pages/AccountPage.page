@@ -1,0 +1,43 @@
+<apex:page standardController="Account">
+  <apex:pageBlock >
+    <h1>{!account.name}</h1>
+    <apex:pageBlockSection title="Account details">
+      <apex:outputField value="{! account.Phone }"/><br/>
+      <apex:pageBlockSectionItem>
+        <apex:outputLabel value="Billing Address" />
+        <apex:outputPanel>
+          <apex:outputText value="{!account.BillingCountry}" /><br />
+          <apex:outputText value="{!account.BillingPostalCode}" />&nbsp;
+          <apex:outputText value="{!account.BillingState}" />&nbsp;
+          <apex:outputText value="{!account.BillingCity}" />&nbsp;<br />
+          <apex:outputText value="{!account.BillingStreet}" />
+        </apex:outputPanel>
+      </apex:pageBlockSectionItem><br/>
+      <apex:pageBlockSectionItem>
+        <apex:outputLabel value="Shipping Address" />
+        <apex:outputPanel>
+          <apex:outputText value="{!account.ShippingCountry}" /><br />
+          <apex:outputText value="{!account.ShippingPostalCode}" />&nbsp;
+          <apex:outputText value="{!account.ShippingState}" />&nbsp;
+          <apex:outputText value="{!account.ShippingCity}" />&nbsp;<br />
+          <apex:outputText value="{!account.ShippingStreet}" />
+        </apex:outputPanel>
+      </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+
+    <apex:pageBlockSection>
+      <apex:pageBlockTable value="{!account.Contacts}" var="contact" border="1">
+        <apex:column value="{!contact.Name}"/>
+        <apex:column value="{!contact.Email}"/>
+        <apex:column value="{!contact.Phone}"/>
+        <apex:column headerValue="Mailing Address">
+          <apex:outputText value="{!contact.MailingCountry}" /><br />
+          <apex:outputText value="{!contact.MailingPostalCode}" />&nbsp;
+          <apex:outputText value="{!contact.MailingState}" />&nbsp;
+          <apex:outputText value="{!contact.MailingCity}" />&nbsp;<br />
+          <apex:outputText value="{!contact.MailingStreet}" />
+        </apex:column>
+      </apex:pageBlockTable>
+    </apex:pageBlockSection>
+  </apex:pageBlock>
+</apex:page>
