@@ -25,8 +25,8 @@
       </apex:pageBlockSectionItem>
     </apex:pageBlockSection>
 
-    <apex:pageBlockSection>
-      <apex:pageBlockTable value="{!account.Contacts}" var="contact" border="1">
+    <apex:pageBlockSection title="Related contacts">
+      <apex:pageBlockTable value="{!account.Contacts}" var="contact" border="1" width="100%">
         <apex:column value="{!contact.Name}"/>
         <apex:column value="{!contact.Email}"/>
         <apex:column value="{!contact.Phone}"/>

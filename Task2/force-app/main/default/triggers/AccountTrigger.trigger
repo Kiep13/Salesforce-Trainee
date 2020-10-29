@@ -8,6 +8,8 @@ trigger AccountTrigger on Account (after update) {
       }
     }
 
-    AccountTriggerHelper.generatePDFS(needGeneratePdfIds);
+    if(needGeneratePdfIds.size() > 0) {
+      AccountTriggerHelper.generatePDFS(needGeneratePdfIds);
+    }
   }
 }
