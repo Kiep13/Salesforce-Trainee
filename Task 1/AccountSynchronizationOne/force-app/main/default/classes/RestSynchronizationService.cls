@@ -34,26 +34,21 @@ public with sharing class RestSynchronizationService {
   }
 
   @future(callout = true)
-  public static void sendDeleteRequest(List<String> externalIds) {
+  public static void sendDeleteRequest(List<String> ids) {
+    String endPoint = 'callout:AnotherOrg/services/data/v49.0/composite/sobjects?ids=';
 
-    List<Account> accountsForUpdate = new List<Account>();
-    for (String id : externalIds) {
-      Account accountForUpdate = new Account(
-        Id = id,
-        External_Id__c = null
-      );
-      accountsForUpdate.add(accountForUpdate);
+    for(String id: ids) {
+        endPoint = endpoint + id + ',';
     }
 
-    AccountRequestWrapper wrapper = new AccountRequestWrapper(false, accountsForUpdate);
-  
+    endPoint = endPoint.removeEnd(',');
+
     Http http = new Http();
-    HttpRequest request = new HttpRequest();  
-    request.setEndpoint('callout:AnotherOrg/services/data/v49.0/composite/sobjects');  
-    request.setMethod('PATCH');    
-    request.setHeader('Content-Type', 'application/json;charset=UTF-8');
-    request.setBody(JSON.serialize(wrapper)); 
-    HttpResponse responce = http.send(request);
+    HttpRequest request = new HttpRequest();
+    request.setEndpoint(endPoint);
+    request.setMethod('DELETE');
+
+    HTTPResponse response = http.send(request);
   }
 
   private static List<Account> getAccountsByIds(List<Id> ids) {

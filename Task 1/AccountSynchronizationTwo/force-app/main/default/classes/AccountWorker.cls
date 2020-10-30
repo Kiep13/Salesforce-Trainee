@@ -24,7 +24,6 @@ public with sharing class AccountWorker {
       'ShippingLongitude'
       };
 
-    List<Id> needDeleteAccountIds = new List<Id>();
     List<Id> needUpdateRequestIds = new List<Id>();
 
     for (Account account : newAccounts) {
@@ -43,28 +42,24 @@ public with sharing class AccountWorker {
           needUpdateRequestIds.add(account.id);
         }
       }
-
-      if(account.External_Id__c == null) {
-        needDeleteAccountIds.add(account.Id);
-      }
     }
 
     if(needUpdateRequestIds.size() > 0) {
       RestSynchronizationService.sendPutRequest(needUpdateRequestIds);
     }
-
-    AccountWorker.deleteMarkedAccounts(needDeleteAccountIds);
   }
 
-  public static void processDelete() {
+  public static void processDelete(List<Account> accounts) {
+    Boolean isFromApi = String.valueOf(System.URL.getCurrentRequestUrl().getPath()).contains('composite');
 
-  }
+    if(!isFromApi) {
+      List<String> needDeleteRequestIds = new List<String>();
+
+      for(Account account: accounts) {
+        needDeleteRequestIds.add(account.External_Id__c);
+      }
   
-  public static void deleteMarkedAccounts(List<Id> ids) {
-    if(ids.size() > 0) {
-      List<Account> needDeleteAccounts = [SELECT Name FROM Account WHERE Id IN :ids];
-
-      delete needDeleteAccounts;
+      RestSynchronizationService.sendDeleteRequest(needDeleteRequestIds);
     }
   }
 }
