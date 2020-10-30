@@ -4,7 +4,6 @@ public with sharing class AccountTriggerTest {
     private static String TEST_EXTERNAL_ID = '0019000001hE8apAAC';
 
     private static String ERROR_WRONG_EXTERNAL_ID = 'Actual external id does not equal to expectected';
-    private static String ERROR_INVALID_FROM_API = 'Expected From_Api__c field to be updated to false';
     private static String ERROR_EXPECTED_EMPTY_LIST = 'Actual accounts list size does not equal to exptected';
     private static String ERROR_INVALID_NAME = 'Actual account name does not equal to exptected';
 
@@ -35,21 +34,6 @@ public with sharing class AccountTriggerTest {
     }
 
     @IsTest
-    public static void updateWithFromApi() {
-      Account account = [SELECT Name, From_Api__c FROM Account LIMIT 1];
-      account.From_Api__c = true;
-      
-      Test.setMock(HttpCalloutMock.class, new RestSynchronizationServiceMock()); 
-
-      Test.startTest();
-      upsert account;
-      Test.stopTest();
-
-      Account resultAccount = [SELECT From_Api__c FROM Account WHERE Id = :account.Id];
-      System.assertEquals(false, resultAccount.From_Api__c, ERROR_INVALID_FROM_API);
-    }
-
-    @IsTest
     public static void updateName() {
       Account account = [SELECT Name FROM Account LIMIT 1];
       account.Name = TEST_ACCOUNT_NAME + '1';
@@ -66,7 +50,7 @@ public with sharing class AccountTriggerTest {
 
     @IsTest
     public static void deleteMarkedAccount() {
-      Account account = [SELECT Name, From_Api__c FROM Account LIMIT 1];
+      Account account = [SELECT Name FROM Account LIMIT 1];
       account.External_Id__c = null;
       
       Test.setMock(HttpCalloutMock.class, new RestSynchronizationServiceMock()); 
@@ -81,7 +65,7 @@ public with sharing class AccountTriggerTest {
 
     @IsTest
     public static void deleteAccount() {
-      Account account = [SELECT Name, From_Api__c FROM Account LIMIT 1];
+      Account account = [SELECT Name FROM Account LIMIT 1];
       
       Test.setMock(HttpCalloutMock.class, new RestSynchronizationServiceMock()); 
 

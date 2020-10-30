@@ -1,20 +1,20 @@
 public with sharing class RestSynchronizationService {
 
   @future(callout = true)
-  public static void sendInsertRequest(List<Id> ids) {
+  public static void sendPutRequest(List<Id> ids) {
     List<Account> accounts = RestSynchronizationService.getAccountsByIds(ids);
-    List<Account> newAccounts = new List<Account>();
+    List<Account> accountsForRequest = new List<Account>();
 
-    for(Account account: accounts) {
-      Account newAccount = RestSynchronizationService.createAccountForRequest(account);
-      newAccounts.add(newAccount);
+    for (Account account : accounts) {
+      Account accountForRequest = RestSynchronizationService.createAccountForRequest(account);
+      accountsForRequest.add(accountForRequest);
     }
-    
-    AccountRequestWrapper wrapper = new AccountRequestWrapper(false, newAccounts);
-  
+
+    AccountRequestWrapper wrapper = new AccountRequestWrapper(false, accountsForRequest);
+
     Http http = new Http();
     HttpRequest request = new HttpRequest();  
-    request.setEndpoint('callout:AnotherOrg/services/data/v49.0/composite/sobjects');  
+    request.setEndpoint('callout:AnotherOrg/services/data/v49.0/composite/sobjects/Account/External_Id__c/?_HttpMethod=PATCH');  
     request.setMethod('POST');    
     request.setHeader('Content-Type', 'application/json;charset=UTF-8');
     request.setBody(JSON.serialize(wrapper)); 
@@ -24,39 +24,13 @@ public with sharing class RestSynchronizationService {
     List<AccountInsertResponse> resultObjects = (
       List<AccountInsertResponse>)JSON.deserialize(responseBody, List<AccountInsertResponse>.class);
 
-    System.debug(resultObjects);
-
     for(Integer i = 0; i < resultObjects.size(); i++) {
       String recordId = (String)resultObjects[i].id;
       System.debug(recordId);
       accounts[i].External_Id__c = recordId;
     }
 
-    upsert accounts;
-  }
-
-  @future(callout = true)
-  public static void sendUpdateRequest(List<Id> ids) {
-
-    List<Account> accounts = RestSynchronizationService.getAccountsByIds(ids);
-    List<Account> accountsForUpdate = new List<Account>();
-
-    for (Account account : accounts) {
-      Account accountForUpdate = RestSynchronizationService.createAccountForRequest(account);
-      accountForUpdate.From_Api__c = true;
-      accountsForUpdate.add(accountForUpdate);
-    }
-    
-    AccountRequestWrapper wrapper = new AccountRequestWrapper(false, accountsForUpdate);
-  
-    Http http = new Http();
-    HttpRequest request = new HttpRequest();  
-    request.setEndpoint('callout:AnotherOrg/services/data/v49.0/composite/sobjects');  
-    request.setMethod('PATCH');    
-    request.setHeader('Content-Type', 'application/json;charset=UTF-8');
-    System.debug(JSON.serialize(wrapper));
-    request.setBody(JSON.serialize(wrapper)); 
-    HttpResponse responce = http.send(request);
+    update accounts;
   }
 
   @future(callout = true)
