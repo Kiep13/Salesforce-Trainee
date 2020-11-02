@@ -21,3 +21,10 @@ Need to realize Account synchronization between two SF orgs.
 4. PDF should include:
     * Account info: Name, Phone, Billing and Shipping Addresses 
     * List of related Contacts: First Name, Last Name, Email, Phone and Address
+    
+***
+
+## Task 2.1 (related to Task 2)
+
+1. Create the button which will work with logic of generating PDF
+2. Use LWC
