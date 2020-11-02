@@ -1,18 +1,23 @@
-public with sharing class AccountTriggerHelper {
+public with sharing class AccountTriggerHelper implements Queueable, Database.AllowsCallouts {
 
-  @future(callout=true)
-  public static void generatePdfs(List<Id> ids) {
+  private List<Id> ids;
+  
+  public AccountTriggerHelper(List<Id> ids) {
+    this.ids = ids;
+  }
+
+  public void execute(QueueableContext context) {
     List<Account> accounts = [SELECT Id,  Generate_PDF__c FROM Account WHERE Id IN :ids];
 
     for (Account account : accounts) {
       account.Generate_PDF__c = false;
-      savePdf(account.id);
+      this.savePdf(account.id);
     }
 
     update accounts;
   }
 
-  public static void savePdf(Id id) {
+  public void savePdf(Id id) {
 
     Pagereference pdf = Page.AccountPage;
     pdf.getParameters().put('id', id);

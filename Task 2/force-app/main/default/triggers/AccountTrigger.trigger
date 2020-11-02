@@ -9,7 +9,8 @@ trigger AccountTrigger on Account (after update) {
     }
 
     if(needGeneratePdfIds.size() > 0) {
-      AccountTriggerHelper.generatePDFS(needGeneratePdfIds);
+      AccountTriggerHelper generatingJob = new AccountTriggerHelper(needGeneratePdfIds);
+      ID jobID = System.enqueueJob(generatingJob);
     }
   }
 }

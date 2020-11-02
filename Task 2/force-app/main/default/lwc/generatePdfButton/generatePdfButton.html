@@ -1,3 +1,6 @@
 <template>
+  <template if:true={processing}>
+    <c-spinner class="slds-float_left"></c-spinner>
+  </template>
   <p>{resultMessage}</p>
 </template>

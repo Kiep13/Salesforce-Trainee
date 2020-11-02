@@ -22,9 +22,6 @@ export default class GeneratePdfButton extends LightningElement {
   }
 
   generatePdf() {
-    // const closeAction = new CustomEvent('close');
-    // this.dispatchEvent(closeAction);
-
     const fields = {};
     fields[ID_FIELD.fieldApiName] = this.recordId;
     fields[GENERATE_PDF_FIELD.fieldApiName] = true;
