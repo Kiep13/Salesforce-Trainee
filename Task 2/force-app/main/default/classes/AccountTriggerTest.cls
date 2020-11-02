@@ -27,9 +27,10 @@ public with sharing class AccountTriggerTest {
   @IsTest
   public static void testPdfGenerating() {
     Account account = [SELECT Id,  Generate_PDF__c FROM Account LIMIT 1];
+    AccountTriggerHelper helper = new AccountTriggerHelper(new List<Id>());
 
     Test.startTest();
-    AccountTriggerHelper.savePdf(account.Id);
+    helper.savePdf(account.Id);
     Test.stopTest(); 
 
     List<Attachment> attachments = [SELECT Id FROM Attachment WHERE ParentId = :account.id];
