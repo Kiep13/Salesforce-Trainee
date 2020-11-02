@@ -49,21 +49,6 @@ public with sharing class AccountTriggerTest {
     }
 
     @IsTest
-    public static void deleteMarkedAccount() {
-      Account account = [SELECT Name FROM Account LIMIT 1];
-      account.External_Id__c = null;
-      
-      Test.setMock(HttpCalloutMock.class, new RestSynchronizationServiceMock()); 
-
-      Test.startTest();
-      upsert account;
-      Test.stopTest();
-
-      List<Account> accounts = [SELECT Name FROM Account];
-      System.assertEquals(0, accounts.size(), ERROR_EXPECTED_EMPTY_LIST);
-    }
-
-    @IsTest
     public static void deleteAccount() {
       Account account = [SELECT Name FROM Account LIMIT 1];
       

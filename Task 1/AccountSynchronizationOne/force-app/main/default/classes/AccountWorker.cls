@@ -9,7 +9,8 @@ public with sharing class AccountWorker {
     }
 
     if(needInsertRequestIds.size() > 0) {
-      RestSynchronizationService.sendPutRequest(needInsertRequestIds);
+      PutSynchronization integrationJob = new PutSynchronization(needInsertRequestIds);
+      ID jobID = System.enqueueJob(integrationJob);
     }
   }
 
@@ -45,7 +46,8 @@ public with sharing class AccountWorker {
     }
 
     if(needUpdateRequestIds.size() > 0) {
-      RestSynchronizationService.sendPutRequest(needUpdateRequestIds);
+      PutSynchronization integrationJob = new PutSynchronization(needUpdateRequestIds);
+      ID jobID = System.enqueueJob(integrationJob);
     }
   }
 
@@ -59,7 +61,8 @@ public with sharing class AccountWorker {
         needDeleteRequestIds.add(account.External_Id__c);
       }
   
-      RestSynchronizationService.sendDeleteRequest(needDeleteRequestIds);
+      DeleteSynchronization integrationJob = new DeleteSynchronization(needDeleteRequestIds);
+      ID jobID = System.enqueueJob(integrationJob);
     }
   }
 }
