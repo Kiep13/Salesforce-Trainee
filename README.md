@@ -28,3 +28,12 @@ Need to realize Account synchronization between two SF orgs.
 
 1. Create the button which will work with logic of generating PDF
 2. Use LWC
+
+***
+
+## Task 3
+
+1. Need to generate platform event on account updating 
+2. On Account page should appear message about account changing
+3. Message should include data about changes. For example: <br/>
+ Account Name ExactTarget ->  Salesforce Marketing Cloud
