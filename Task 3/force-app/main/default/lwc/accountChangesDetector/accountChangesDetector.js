@@ -8,11 +8,7 @@ export default class AccountChangesDetector extends LightningElement {
   subscription = {};
 
   connectedCallback() {    
-    this.showToast("Success!", "Record {0} created! See it {1}!",);
-
-    const messageCallback = (response) => {
-      //console.log(JSON.stringify(response));
-
+      const messageCallback = (response) => {
       const message = response['data']['payload']['Message__c'];
 
       console.log(message);
