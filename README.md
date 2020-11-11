@@ -37,3 +37,10 @@ Need to realize Account synchronization between two SF orgs.
 2. On Account page should appear message about account changing
 3. Message should include data about changes. For example: <br/>
  Account Name ExactTarget ->  Salesforce Marketing Cloud
+ 
+ ***
+
+## Task 4
+
+1. Add to Account piclist field with values "Team 1, Team 2, Team 3"
+2. In dependency of value of this picklist account should be visible for people, which in group with such name  Team 1, Team 2, Team 3
