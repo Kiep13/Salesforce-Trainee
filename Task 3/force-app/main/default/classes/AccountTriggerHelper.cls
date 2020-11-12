@@ -35,13 +35,6 @@ public with sharing class AccountTriggerHelper {
 
     if (sr.isSuccess()) {
       System.debug('Successfully published event.');
-    } else {
-      for(Database.Error err : sr.getErrors()) {
-      System.debug('Error returned: ' +
-        err.getStatusCode() +
-        ' - ' +
-        err.getMessage());
-      }
-    }
+    } 
   }
 }
