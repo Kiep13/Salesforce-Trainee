@@ -6,7 +6,7 @@ public with sharing class AccountTriggerHelper {
     }
   }
 
-  private static void detectFieldChanges(Account newAccount, Account oldAccount) {
+  public static Database.SaveResult detectFieldChanges(Account newAccount, Account oldAccount) {
     SobjectType objectType = Schema.getGlobalDescribe().get('Account');
     Map<String, Schema.SObjectField> fieldMap = objectType.getDescribe().fields.getMap();
 
@@ -19,11 +19,13 @@ public with sharing class AccountTriggerHelper {
     }
 
     if(listFieldChanges.size() > 0) {
-      sendEvent(listFieldChanges);
+      return sendEvent(listFieldChanges);
+    } else {
+      return null;
     }
   }
 
-  private static void sendEvent(List<FieldChanges> listFieldChanges) {
+  private static Database.SaveResult sendEvent(List<FieldChanges> listFieldChanges) {
     String message = UserInfo.getFirstName() + ' ' + UserInfo.getLastName() + ' changed data\n';
 
     for (FieldChanges fieldChanges : listFieldChanges) {
@@ -31,10 +33,11 @@ public with sharing class AccountTriggerHelper {
     }
 
     Account_Change__e changesEvent = new Account_Change__e(Message__c = message);
-    Database.SaveResult sr = EventBus.publish(changesEvent);
+    //Database.SaveResult sr = EventBus.publish(changesEvent);
+    return EventBus.publish(changesEvent);
 
-    if (sr.isSuccess()) {
-      System.debug('Successfully published event.');
-    } 
+    // if (sr.isSuccess()) {
+    //   System.debug('Successfully published event.');
+    // } 
   }
 }
