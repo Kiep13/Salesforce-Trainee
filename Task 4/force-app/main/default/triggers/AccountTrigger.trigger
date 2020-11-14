@@ -1,7 +1,9 @@
 trigger AccountTrigger on Account (after insert, after update) {
+  AccountTriggerHelper helper = new AccountTriggerHelper();
+
   if(Trigger.isInsert) {
-    AccountTriggerHelper.iterateInsertAccounts(Trigger.new);
+    helper.iterateInsertAccounts(Trigger.new);
   } else if(Trigger.isUpdate) {
-    AccountTriggerHelper.iterateUpdateAccounts(Trigger.new, Trigger.oldMap);
+    helper.iterateUpdateAccounts(Trigger.new, Trigger.oldMap);
   }
 }
