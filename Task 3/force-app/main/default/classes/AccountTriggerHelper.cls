@@ -7,7 +7,7 @@ public with sharing class AccountTriggerHelper {
       List<FieldChanges> listFieldChanges = detectFieldChanges(newAccount, oldAccount);
 
       if(listFieldChanges.size() > 0) {
-        events.add(sendEvent(newAccount.Id, listFieldChanges));
+        events.add(createEvent(newAccount.Id, listFieldChanges));
       }
     }
 
@@ -16,7 +16,7 @@ public with sharing class AccountTriggerHelper {
     }
   }
 
-  public static List<FieldChanges> detectFieldChanges(Account newAccount, Account oldAccount) {
+  @TestVisible private static List<FieldChanges> detectFieldChanges(Account newAccount, Account oldAccount) {
     SobjectType objectType = Schema.getGlobalDescribe().get('Account');
     Map<String, Schema.SObjectField> fieldMap = objectType.getDescribe().fields.getMap();
 
@@ -31,7 +31,7 @@ public with sharing class AccountTriggerHelper {
     return listFieldChanges;
   }
 
-  private static Account_Change__e sendEvent(String id, List<FieldChanges> listFieldChanges) {
+  @TestVisible private static Account_Change__e createEvent(String id, List<FieldChanges> listFieldChanges) {
     String message = UserInfo.getFirstName() + ' ' + UserInfo.getLastName() + ' changed data\n';
 
     for (FieldChanges fieldChanges : listFieldChanges) {
